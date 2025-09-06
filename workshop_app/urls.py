@@ -18,6 +18,7 @@ from workshop_app import views
 
 app_name = "workshop_app"
 
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^register/$', views.user_register, name="register"),
