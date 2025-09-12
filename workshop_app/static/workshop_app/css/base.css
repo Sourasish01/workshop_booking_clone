@@ -17,3 +17,16 @@
     padding-top: 5em;
     padding-bottom: 5em;
 }
+
+.btn-emerald {
+    background-color: #34d399;
+    color: #fff;
+    border: none;
+}
+.btn-emerald:hover, .btn-emerald:focus {
+    background-color: #059669;
+    color: #fff;
+}
+.text-emerald-400 { color: #34d399 !important; }
+.text-gray-300 { color: #d1d5db !important; }
+.text-gray-400 { color: #9ca3af !important; }
