@@ -1,35 +1,105 @@
 {% extends 'workshop_app/base.html' %}
 
-	{% block title %}
-		Register
-	{% endblock %}
+{% block title %}
+    Register
+{% endblock %}
 
 {% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="container">
+        <div class="mx-auto col-12 col-md-10 col-lg-8" style="max-width: 720px;">
+            <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+                style="
+                    background-color: rgba(31, 41, 55, 0.5); 
+                    backdrop-filter: blur(12px);
+                    border-radius: 1rem;
+                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
+                                0 10px 10px -5px rgba(0,0,0,0.04);
+                    overflow: hidden;  "
+            >
+                <div class="p-4 p-md-5">
+                    <h2 class="fw-bold mb-4 text-center"
+                        style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Register as Coordinator
+                    </h2>
+                    <form method="post" class="mb-0">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    <strong>{{ error|escape }}</strong>
+                                {% endfor %}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
 
-	<style type="text/css">
-    	label.required::after {
-    	content: "*";
-    	color: red;
-		}
+                        <div class="row">
+                            {% for field in form %}
+                                <div class="col-12 col-md-6 mb-4 position-relative">
+                                    <div class="position-relative">
+                                        <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                            {% if field.name == 'username' %}
+                                                <span class="material-icons" style="font-size: 1.5rem; color:  #34d399;">
+													person
+												</span>
+                                            {% elif field.name == 'email' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">mail</span>
+                                            {% elif field.name == 'password' or field.name == 'password1' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">lock</span>
+                                            {% elif field.name == 'password2' or field.name == 'confirm_password' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">lock_reset</span>
+                                            {% elif field.name == 'phone_number' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">call</span>
+                                            {% elif field.name == 'first_name' or field.name == 'last_name' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">badge</span>
+                                            {% elif field.name == 'institute' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">school</span>
+                                            {% elif field.name == 'department' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">business</span>
+                                            {% elif field.name == 'location' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">location_on</span>
+                                            {% elif field.name == 'state' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">map</span>
+                                            {% elif field.name == 'how_did_you_hear_about_us' %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">campaign</span>
+                                            {% else %}
+                                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">edit</span>
+                                            {% endif %}
+                                        </div>
+                                        {{ field }}
+                                    </div>
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in field.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
 
-		.errorlist {
-      color: red;
-    }
-	</style>
-
-	<div class="container" >
-		<br>
-		<h3>Coordinator Registration Form</h3>
-		<br>
-		<form action="" method="post">
-			{% csrf_token %}
-				<table class="table table-bordered">
-					{{ form.as_table }}
-				</table>
-
-				<button class="btn btn-primary" type="submit">Register</button>
-		</form><br>
-		<!-- Activate when Instructor registeration starts -->
-		<br>
-	</div>
+                        <button type="submit"
+                            class="w-100 py-3 px-4 border-0 rounded-3 shadow-lg fw-bold text-white"
+                            style="background: linear-gradient(to right, #34d399, #059669); transition: transform 0.2s;"
+                            onmouseover="this.style.transform='scale(1.02)'"
+                            onmouseout="this.style.transform='scale(1)'"
+                            onmousedown="this.style.transform='scale(0.98)'"
+                            onmouseup="this.style.transform='scale(1)'"
+                        >
+                            <span class="material-icons align-middle me-2">person_add</span>
+                            Register
+                        </button>
+                    </form>
+                </div>
+                <div class="px-4 py-2 bg-dark bg-opacity-50 d-flex justify-content-center rounded-bottom-4">
+                    <p class="text-sm mb-1" style="color: #9ca3af;">
+                        Already have an account?
+                        <a href="{% url 'workshop_app:login' %}" style="color: #34d399; text-decoration: none;">
+                            Login
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

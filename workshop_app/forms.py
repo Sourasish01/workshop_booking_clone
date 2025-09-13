@@ -20,30 +20,80 @@ PWD_CHARS = letters + punctuation + digits
 
 
 class UserRegistrationForm(forms.Form):
-    """A Class to create new form for User's Registration.
-    It has the various fields and functions required to register
-    a new user to the system"""
-    required_css_class = 'required'
-    errorlist_css_class = 'errorlist'
-    username = forms.CharField(max_length=32, help_text='''Letters, digits,
-                               period and underscore only.''')
-    email = forms.EmailField()
-    password = forms.CharField(max_length=32, widget=forms.PasswordInput())
-    confirm_password = forms.CharField(max_length=32, widget=forms.PasswordInput())
-    title = forms.ChoiceField(choices=title)
-    first_name = forms.CharField(max_length=32)
-    last_name = forms.CharField(max_length=32)
-    phone_number = forms.RegexField(regex=r'^.{10}$',
-                                    error_messages={'invalid': "Phone number must be entered \
-                                                  in the format: '9999999999'.\
-                                                 Up to 10 digits allowed."})
-    institute = forms.CharField(max_length=128,
-                                help_text='Please write full name of your Institute/Organization')
-    department = forms.ChoiceField(help_text='Department you work/study',
-                                   choices=department_choices)
-    location = forms.CharField(max_length=255, help_text="Place/City")
-    state = forms.ChoiceField(choices=states)
-    how_did_you_hear_about_us = forms.ChoiceField(choices=source)
+    username = forms.CharField(
+        max_length=32,
+        help_text='Letters, digits, period and underscore only.',
+        widget=forms.TextInput(attrs={'placeholder': 'Username'})
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'Email'})
+    )
+    password = forms.CharField(
+        max_length=32,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password'})
+    )
+    confirm_password = forms.CharField(
+        max_length=32,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'})
+    )
+    title = forms.ChoiceField(
+        choices=title,
+        widget=forms.Select(attrs={'placeholder': 'Title'})
+    )
+    first_name = forms.CharField(
+        max_length=32,
+        widget=forms.TextInput(attrs={'placeholder': 'First Name'})
+    )
+    last_name = forms.CharField(
+        max_length=32,
+        widget=forms.TextInput(attrs={'placeholder': 'Last Name'})
+    )
+    phone_number = forms.RegexField(
+        regex=r'^.{10}$',
+        error_messages={'invalid': "Phone number must be entered in the format: '9999999999'. Up to 10 digits allowed."},
+        widget=forms.TextInput(attrs={'placeholder': 'Phone Number'})
+    )
+    institute = forms.CharField(
+        max_length=128,
+        help_text='Please write full name of your Institute/Organization',
+        widget=forms.TextInput(attrs={'placeholder': 'Institute'})
+    )
+    department = forms.ChoiceField(
+        help_text='Department you work/study',
+        choices=department_choices,
+        widget=forms.Select(attrs={'placeholder': 'Department'})
+    )
+    location = forms.CharField(
+        max_length=255,
+        help_text="Place/City",
+        widget=forms.TextInput(attrs={'placeholder': 'Location'})
+    )
+    state = forms.ChoiceField(
+        choices=states,
+        widget=forms.Select(attrs={'placeholder': 'State'})
+    )
+    how_did_you_hear_about_us = forms.ChoiceField(
+        choices=source,
+        widget=forms.Select(attrs={'placeholder': 'How did you hear about us?'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'w-100 ps-5 pe-3 py-2',
+                'style': (
+                    'background-color: #374151; '  # lighter than #1f2937
+        'opacity: 1; ' 
+                    'border-radius: 0.75rem; '
+                    'border: 1px solid #374151; '
+                    'color: #fff; '
+                    'transition: border-color 0.2s, box-shadow 0.2s; '
+                    'box-shadow: none;'
+                ),
+                'onfocus': "this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399';",
+                'onblur': "this.style.borderColor='#374151'; this.style.boxShadow='none';"
+            })
 
     def clean_username(self):
         u_name = self.cleaned_data["username"]
