@@ -22,7 +22,7 @@
                         style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                         Register as Coordinator
                     </h2>
-                    <form method="post" class="mb-0">
+                    <form method="post" class="mb-0" autocomplete="off">
                         {% csrf_token %}
                         {% if form.non_field_errors %}
                             <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
