@@ -2,6 +2,8 @@
 <html>
 {% load static %}
 {% load custom_filters %}
+
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
@@ -21,7 +23,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
       rel="stylesheet"
     />
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     {% block extra-dependencies %}
     {% endblock %}
     <link rel="stylesheet" href="{% static 'workshop_app/css/bootstrap.min.css' %}">
@@ -36,60 +39,108 @@
 
 </head>
 
-<body>
-{% block header %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'workshop_app:index' %}">
-            <span class="material-icons me-2">school</span> FOSSEE Workshops
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'statistics_app:public' %}">Workshop Statistics</a></li>
-                {% if user.is_authenticated %}
-                    {% if request.user|has_group:"instructor" %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'statistics_app:team' %}">Team Statistics</a></li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'workshop_app:workshop_status_instructor' %}">Workshop Status</a></li>
-                    {% if not request.user|has_group:"instructor" %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'workshop_app:propose_workshop' %}">Propose Workshop</a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'workshop_app:workshop_type_list' %}">Workshop Types</a></li>
-                {% endif %}
-            </ul>
-            {% if user.is_authenticated %}
-            <div class="dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center"\
-                 href="#" 
-                 id="navbarDropdown" 
-                 role="button"
-                 data-bs-toggle="dropdown">
-                <span class="material-icons me-1">account_circle</span>
-                <span>{{ user.get_full_name|title }}</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a></li>
-                    <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
-                    <li><a class="dropdown-item" href="{% url 'workshop_app:logout' %}">Logout</a></li>
-                </ul>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</nav>
-{% endblock %}
 
-<div class="base-content">
-    {% block content %}
-        <h1>Base Template Content. Please override me</h1>
+<body>
+    <div class = "background-gradient">
+        <!-- Floating Shapes -->
+        <!-- Floating Shapes -->
+        <div class="floating-shape shape-teal" style="position:fixed; top:-5%; left:10%; width:20rem; height:20rem; border-radius:50%; background: #ea119aff; opacity:0.3; filter:blur(12px); z-index:0; pointer-events:none;"></div>
+        <div class="floating-shape shape-violet" style="position:fixed; top:70%; left:80%; width:15rem; height:15rem; border-radius:50%; background: #711dd6ff; opacity:0.3; filter:blur(12px); z-index:0; pointer-events:none;"></div>
+        <div class="floating-shape shape-amber" style="position:fixed; top:40%; left:0%; width:10rem; height:10rem; border-radius:50%; background: #f0ca0cff; opacity:0.3; filter:blur(12px); z-index:0; pointer-events:none;"></div>
+
+        <script>
+            gsap.to(".shape-teal", {
+            keyframes: [
+                { x: "70vw", y: "60vh", rotate: 180, duration: 6 },
+                { x: "10vw", y: "65vh", rotate: 360, duration: 4 },
+                { x: "0", y: "0", rotate: 0, duration: 2.75 }
+            ],
+            ease: "linear",
+            repeat: -1
+            });
+
+            gsap.to(".shape-violet", {
+            keyframes: [
+                { x: "-80vw", y: "-50vh", rotate: 180, duration: 6 },
+                { x: "-70vw", y: "-70vh", rotate: 360, duration: 1.5 },
+                { x: "5vw", y: "-10vh", rotate: 0, duration: 5 },
+                { x: "0", y: "0", rotate: 0, duration: 1 }
+            ],
+            ease: "linear",
+            repeat: -1,
+            delay: 0
+            });
+
+            gsap.to(".shape-amber", {
+            keyframes: [
+                { x: "40vw", y: "40vh", rotate: 180, duration: 2 },
+                { x: "90vw", y: "-20vh", rotate: 360, duration: 2.5 },
+                { x: "80vw", y: "-40vh", rotate: 0, duration: 1 },
+                { x: "0", y: "0", rotate: 0, duration: 3.5 }
+            ],
+            ease: "linear",
+            repeat: -1,
+            delay: 0
+            });
+        </script>
+
+
+    {% block header %}
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top ">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'workshop_app:index' %}">
+                    <span class="material-icons me-2">school</span> FOSSEE Workshops
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'statistics_app:public' %}">Workshop Statistics</a></li>
+                        {% if user.is_authenticated %}
+                            {% if request.user|has_group:"instructor" %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'statistics_app:team' %}">Team Statistics</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'workshop_app:workshop_status_instructor' %}">Workshop Status</a></li>
+                            {% if not request.user|has_group:"instructor" %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'workshop_app:propose_workshop' %}">Propose Workshop</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'workshop_app:workshop_type_list' %}">Workshop Types</a></li>
+                        {% endif %}
+                    </ul>
+                    {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center"\
+                        href="#" 
+                        id="navbarDropdown" 
+                        role="button"
+                        data-bs-toggle="dropdown">
+                        <span class="material-icons me-1">account_circle</span>
+                        <span>{{ user.get_full_name|title }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                            <li><a class="dropdown-item" href="{% url 'workshop_app:logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
     {% endblock %}
-</div>
+
+    <div class="base-content">
+        {% block content %}
+            <h1>Base Template Content. Please override me</h1>
+        {% endblock %}
+    </div>
+
+    </div>
+
 
 <script>
     {% if messages %}
@@ -107,4 +158,6 @@
        </div> 
     {% endblock %}
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
 </html>

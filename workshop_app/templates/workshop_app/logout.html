@@ -4,15 +4,33 @@
 		Logged out
 	{% endblock %}
 
+	{% block extra-custom-scripts %}
+	<style >
+		.main-cont {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		
+	}
+	</style>
+	{% endblock %}
+
 
 	{% block content %}
-		<div class="container" align="center">
-			<br>
-			<h3>You have logged out successfully.</h3>
-			<h4>If you want to login again please
-				<a href="/">click here</a>
-			</h4>
-			<br>
-		</div>
+		
+
+		<div class="main-cont" style="height: 100%;">
+            <h2 class="fw-bold mb-4 text-center"
+                style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Logged Out Successfully
+            </h2>
+            <p class="text-sm mb-1" style="color: #9ca3af;">
+				Want to login again?
+				<a href="/" style="color: #34d399; text-decoration: none;">
+					click here
+				</a>
+            </p>
+        </div>
 
 	{% endblock %}

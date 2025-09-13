@@ -3,29 +3,59 @@
 {% block title %}
     View Workshop details
 {% endblock %}
+    
 
 {% block content %}
-    <div class="container">
-        <h2 class="text-center m-3">Workshop Details</h2>
-        <table class="table table-hover">
-            <tr class="d-flex">
-                <th class="col-3">Workshop Name :</th>
-                <td class="col">{{ workshop_type.name }}</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Duration :</th>
-                <td class="col">{{ workshop_type.duration }} day(s)</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Description :</th>
-                <td class="col">{{ workshop_type.description }}</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Terms and Conditions :</th>
-                <td class="col">{{ workshop_type.terms_and_conditions }}</td>
-            </tr>
-        </table>
+    
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="w-100" style="max-width: 448px;">
+            <div class=" bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+                style="
+                    background-color: rgba(31, 41, 55, 0.5); 
+                    backdrop-filter: blur(12px);
+                    border-radius: 1rem;
+                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
+                                0 10px 10px -5px rgba(0,0,0,0.04);
+                    overflow: hidden;  "
+            >
+                <div class="p-4 ">
+                    <h2 class="fw-bold mb-4 text-center"
+                        style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Workshop Details
+                    </h2>
+                    <div class="profile-card">
+    <p class="text-xl">
+        <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
+        Workshop Name : {{ workshop_type.name }}
+    </p>
+    <p class="text-xl">
+        <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
+        Duration : {{ workshop_type.duration }} day(s)
+    </p>
+    <p class="text-xl">
+        <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
+        Description : {{ workshop_type.description }}
+    </p>
+    <p class="text-xl">
+        <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
+        Terms and Conditions : {{ workshop_type.terms_and_conditions }}
+    </p>
+</div>
+                </div>
+                <div class="px-4 py-2 bg-dark bg-opacity-50 d-flex justify-content-center rounded-bottom-4">
+                    <p class="text-sm mb-1" style="color: #9ca3af;">
+                        Return back ?
+                        <a href="/" style="color: #34d399; text-decoration: none;">
+                            click here
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
 
 {% endblock %}
 

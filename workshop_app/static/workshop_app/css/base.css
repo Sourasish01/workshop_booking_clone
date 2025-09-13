@@ -1,6 +1,12 @@
 /**
  * Footer Styles
  */
+
+ .background-gradient{
+    min-height: 100vh;
+    position: relative;
+    background: linear-gradient(135deg, #111827 0%, #065f46 50%, #05974e 100%);
+}
 .navbar {
     z-index: 1000;
 }
@@ -8,7 +14,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #61615F;
+    
     color: white;
     text-align: center;
     z-index: 100;
@@ -16,12 +22,19 @@
 .base-content {
     padding-top: 5em;
     padding-bottom: 5em;
+    min-height: 100vh; /* allows content to grow and page to scroll */
+    height: auto;
 }
 
+html, body {
+    height: 100vh;
+    width: 100vw;
+}    
 .btn-emerald {
     background-color: #34d399;
     color: #fff;
-    border: none;
+    border: none; 
+
 }
 .btn-emerald:hover, .btn-emerald:focus {
     background-color: #059669;
@@ -30,3 +43,14 @@
 .text-emerald-400 { color: #34d399 !important; }
 .text-gray-300 { color: #d1d5db !important; }
 .text-gray-400 { color: #9ca3af !important; }
+
+.profile-card {
+    padding: 1.5rem;
+    
+    border-radius: 1rem;                  /* rounded-lg */
+    
+    color: #d1d5db;                       /* text-gray-300 */
+                   /* space-y-6 */
+    display: flex;
+    flex-direction: column;
+}
