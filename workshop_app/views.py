@@ -71,27 +71,29 @@ def index(request):
 # TODO: Forgot password workflow
 def user_login(request):
     """User Login"""
-    user = request.user
-    if user.is_superuser:
-        return redirect('/admin')
-    if user.is_authenticated:
-        return redirect(get_landing_page(user))
-
     if request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
             user = form.cleaned_data
+            login(request, user)
+            # Now user is authenticated, check for superuser
+            if user.is_superuser:
+                return redirect('/admin')
             if user.profile.is_email_verified:
-                login(request, user)
                 return redirect(get_landing_page(user))
             else:
                 return render(request, 'workshop_app/activation.html')
         else:
             return render(request, 'workshop_app/login.html', {"form": form})
     else:
+        # For GET requests, if already logged in, redirect accordingly
+        user = request.user
+        if user.is_authenticated:
+            if user.is_superuser:
+                return redirect('/admin')
+            return redirect(get_landing_page(user))
         form = UserLoginForm()
         return render(request, 'workshop_app/login.html', {"form": form})
-
 
 def user_logout(request):
     """Logout"""

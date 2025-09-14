@@ -5,7 +5,7 @@
  .background-gradient{
     min-height: 100vh;
     position: relative;
-    background: linear-gradient(135deg, #111827 0%, #065f46 50%, #05974e 100%);
+    background: linear-gradient(135deg, #08140b 0%, #16561f 25%, #0e6f1e 50%, #078e26 75%, #019c3c);
 }
 .navbar {
     z-index: 1000;
@@ -24,6 +24,8 @@
     padding-bottom: 5em;
     min-height: 100vh; /* allows content to grow and page to scroll */
     height: auto;
+    
+    
 }
 
 html, body {
@@ -53,4 +55,9 @@ html, body {
                    /* space-y-6 */
     display: flex;
     flex-direction: column;
+}
+
+.ui-dialog-titlebar-close .ui-icon-closethick {
+    color: #374151 !important;
+    background: none !important;
 }

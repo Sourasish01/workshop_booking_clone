@@ -42,7 +42,8 @@
             </h2>
             <div class="shadow-lg rounded-4 overflow-hidden mx-auto"
                 style="max-width: 900px; background-color: #1f2937;">
-                <table style="width:100%; color: #d1d5db; border-collapse: separate; border-spacing: 0;">
+                <div style="overflow-x: auto;">
+                <table style="min-width: 600px; width:100%; color: #d1d5db; border-collapse: separate; border-spacing: 0;">
                     <thead style="background-color: #374151;">
                         <tr>
                             <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Workshop Name</th>
@@ -64,8 +65,8 @@
                                     overflow: hidden;
                                 ">
                                 <td class="px-4 py-3 align-middle">
-                                    <a href="{% url 'workshop_app:workshop_details' workshop.id %}" style="color: #34d399; font-weight: 500;">
-                                        {{ workshop.workshop_type|capfirst }}
+                                    <a href="{% url 'workshop_app:workshop_details' workshop.id %}" style="color:  #d1d5db;; font-weight: 500; border: 1px solid #34d399; padding: 2px 6px; border-radius: 10px;">
+                                        {{ workshop.workshop_type }}
                                     </a>
                                 </td>
                                 <td class="px-4 py-3 align-middle">
@@ -98,6 +99,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
 
@@ -109,7 +111,8 @@
                 Workshops Proposed by Me
             </h2>
             <div class="shadow-lg rounded-4 overflow-hidden mx-auto" style="max-width: 900px; background-color: #1f2937;">
-                <table style="width:100%; color: #d1d5db; border-collapse: separate; border-spacing: 0;">
+                <div style="overflow-x: auto;">
+                <table style="min-width: 600px; width:100%; color: #d1d5db; border-collapse: separate; border-spacing: 0;">
                     <thead style="background-color: #374151;">
                         <tr>
                             <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Workshop Name</th>
@@ -130,8 +133,8 @@
                                     overflow: hidden;
                                 ">
                                 <td class="px-4 py-3 align-middle">
-                                    <a href="{% url 'workshop_app:workshop_details' workshop.id %}" style="color: #34d399; font-weight: 500;">
-                                        {{ workshop.workshop_type|capfirst }}
+                                    <a href="{% url 'workshop_app:workshop_details' workshop.id %}" style="color:  #d1d5db;; font-weight: 500; border: 1px solid #34d399; padding: 2px 6px; border-radius: 10px;">
+                                        {{ workshop.workshop_type }}
                                     </a>
                                 </td>
                                 <td class="px-4 py-3 align-middle">
@@ -161,6 +164,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
         
