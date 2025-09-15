@@ -68,3 +68,31 @@ html, body {
 .logout{
       font-weight: bold!important;
 }
+
+.bg-dark-collapsed {
+    
+    background-color: #212529 !important;
+    transition: background 0.3s ease-in-out;
+    margin-top: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+#navbarSupportedContent {
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+    overflow: hidden;
+
+}
+
+.navbar-toggler {
+    border: none;
+    background: rgba(52, 211, 153, 0.15); /* subtle emerald tint */
+    transition: background 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.navbar-toggler:hover,
+.navbar-toggler:focus {
+    background: rgba(52, 211, 153, 0.35);
+    box-shadow: 0 0 0 2px #34d399;
+}

@@ -86,17 +86,19 @@
 
 
     {% block header %}
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top ">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: transparent;">
+            <div class="container-fluid" id = "navbar-container">
                 <a class="navbar-brand d-flex align-items-center" href="{% url 'workshop_app:index' %}">
                     <span class="material-icons me-2">school</span> FOSSEE Workshops
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            {% if user.is_authenticated %}
+                <button class="navbar-toggler" id="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+            {% endif %}
+
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-                    <ul class="navbar-nav flex-grow-1 d-flex justify-content-evenly mb-2 mb-lg-0" style="margin-left: 10rem; margin-right: 10rem;">
-                        
+                    <ul class="navbar-nav flex-grow-1 d-flex justify-content-evenly mb-2 mb-lg-0 mx-2 mx-md-4 mx-lg-5">
                         {% if user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'statistics_app:public' %}">Workshop Statistics</a></li>
@@ -110,25 +112,27 @@
                                 </li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'workshop_app:workshop_type_list' %}">Workshop Types</a></li>
+                            <!-- Profile Dropdown as nav-item -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                >
+                                    <span class="material-icons me-1 text-white">account_circle</span>
+                                    <span class="text-white">{{ user.get_full_name|title }}</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                                    <li><a class="dropdown-item logout text-danger" href="{% url 'workshop_app:logout' %}">Logout</a></li>
+                                </ul>
+                            </li>
                         {% endif %}
                     </ul>
-                    {% if user.is_authenticated %}
-                    <div class="dropdown colour-white">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center"
-                        href="#" 
-                        id="navbarDropdown" 
-                        role="button"
-                        data-bs-toggle="dropdown">
-                            <span class="material-icons me-1 text-white">account_circle</span>
-                            <span class="text-white">{{ user.get_full_name|title }}</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
-                            <li><a class="dropdown-item logout text-danger" href="{% url 'workshop_app:logout' %}">Logout</a></li>
-                        </ul>
-                    </div>
-                    {% endif %}
+                        
+                        
                 </div>
             </div>
         </nav>
@@ -149,6 +153,22 @@
             toastr[{% if message.tags %} "{{ message.tags }}" {% else %} "info" {% endif %}]("{{ message }}");
         {% endfor %}
     {% endif %}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var collapse = document.getElementById('navbarSupportedContent');
+    collapse.addEventListener('show.bs.collapse', function () {
+        collapse.classList.add('bg-dark-collapsed');
+    });
+    collapse.addEventListener('hide.bs.collapse', function () {
+        collapse.classList.remove('bg-dark-collapsed');
+    });
+});
+
+
+
+
 </script>
 
 </body>

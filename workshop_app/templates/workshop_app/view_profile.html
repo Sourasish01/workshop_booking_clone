@@ -1,98 +1,506 @@
-{% extends "workshop_app/base.html" %}
+{% extends 'workshop_app/base.html' %}
 
 {% block title %} Profile {% endblock %}
 
+{% csrf_token %}
+
+
+
+
+
 {% block content %}
-<div class="container-fluid  justify-content-center py-5 py-md-12 px-3 px-sm-4 px-lg-5" style="min-height: 80vh;">
-    <h1 class="mt-6 mb-4 text-center fw-bold" style="color: #34d399; font-size: 2rem;">
-        Profile
-    </h1>
+<div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-4 gap-lg-0 mx-3" style="min-height: 80vh;">
     
-    <div class="row g-4 flex justify-content-center ">
-        <!-- Personal Info Card -->
-        <div class="col-12 col-md-4">
-            <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
-                style="
-                    background-color: rgba(31, 41, 55, 0.5); 
-                    backdrop-filter: blur(12px);
-                    border-radius: 1rem;
-                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
-                                0 10px 10px -5px rgba(0,0,0,0.04);
-                    overflow: hidden;
-                ">
-                <div class="p-4">
-                    <h2 class="fw-bold mb-4 text-center"
-                        style="font-size: 1.5rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                        Personal Info
-                    </h2>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Title" value="{{ user.profile.title }}" readonly>
+    <!-- Filter Card -->
+    <div class="w-100 mx-3 mb-5 mb-lg-0 mb-md-0" style="max-width: 448px;">
+        <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+            style="
+                background-color: rgba(31, 41, 55, 0.5); 
+                backdrop-filter: blur(12px);
+                border-radius: 1rem;
+                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
+                            0 10px 10px -5px rgba(0,0,0,0.04);
+                overflow: hidden;  "
+        >
+            <div class="p-4 p-md-5">
+                <h2 class="fw-bold mb-4 text-center"
+                    style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                     Profile
+                </h2>
+
+                
+
+                    
+                    
+               {% if is_instructor %}        
+                <form autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">person</span>
+                                First Name
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.first_name }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">person</span>
+                                Last Name
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.last_name }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">email</span>
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                value="{{ coordinator_profile.user.email }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">school</span>
+                                Institute
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.profile.institute }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">call</span>
+                                Phone Number
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.profile.phone_number }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">business</span>
+                                Department
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.profile.department }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">location_on</span>
+                                Location
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.profile.location }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">badge</span>
+                                Position
+                            </label>
+                            <input
+                                type="text"
+                                value="{{ coordinator_profile.user.profile.position }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                readonly
+                            />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="First Name" value="{{ user.first_name }}" readonly>
+                </form>
+                {% else %}
+                <form method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.first_name.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">person</span>
+                                First Name
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.first_name.name }}"
+                                id="{{ form.first_name.id_for_label }}"
+                                value="{{ form.first_name.value|default:profile.user.first_name }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.first_name.errors %}
+                                <div class="text-danger small mt-1">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.last_name.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">person</span>
+                                Last Name
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.last_name.name }}"
+                                id="{{ form.last_name.id_for_label }}"
+                                value="{{ form.last_name.value|default:profile.user.last_name }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.last_name.errors %}
+                                <div class="text-danger small mt-1">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.email.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">email</span>
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                name="{{ form.email.name }}"
+                                id="{{ form.email.id_for_label }}"
+                                value="{{ form.email.value|default:profile.user.email }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.institute.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">school</span>
+                                Institute
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.institute.name }}"
+                                id="{{ form.institute.id_for_label }}"
+                                value="{{ form.institute.value|default:profile.institute }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.institute.errors %}
+                                <div class="text-danger small mt-1">{{ form.institute.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.phone_number.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">call</span>
+                                Phone Number
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.phone_number.name }}"
+                                id="{{ form.phone_number.id_for_label }}"
+                                value="{{ form.phone_number.value|default:profile.phone_number }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.phone_number.errors %}
+                                <div class="text-danger small mt-1">{{ form.phone_number.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.department.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">business</span>
+                                Department
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.department.name }}"
+                                id="{{ form.department.id_for_label }}"
+                                value="{{ form.department.value|default:profile.department }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.department.errors %}
+                                <div class="text-danger small mt-1">{{ form.department.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.location.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">location_on</span>
+                                Location
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.location.name }}"
+                                id="{{ form.location.id_for_label }}"
+                                value="{{ form.location.value|default:profile.location }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.location.errors %}
+                                <div class="text-danger small mt-1">{{ form.location.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4 position-relative">
+                            <label for="{{ form.position.id_for_label }}" class="mb-1" style="color: #34d399;">
+                                <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">badge</span>
+                                Position
+                            </label>
+                            <input
+                                type="text"
+                                name="{{ form.position.name }}"
+                                id="{{ form.position.id_for_label }}"
+                                value="{{ form.position.value|default:profile.position }}"
+                                class="w-100 px-3 py-2"
+                                style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
+                                required
+                            />
+                            {% if form.position.errors %}
+                                <div class="text-danger small mt-1">{{ form.position.errors }}</div>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Last Name" value="{{ user.last_name }}" readonly>
-                    </div>
-                </div>
+                    <button type="submit"
+                        class="w-100 py-3 px-4 border-0 rounded-3 shadow-lg fw-bold text-white"
+                        style="background: linear-gradient(to right, #34d399, #059669); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='scale(1.02)'"
+                        onmouseout="this.style.transform='scale(1)'"
+                        onmousedown="this.style.transform='scale(0.98)'"
+                        onmouseup="this.style.transform='scale(1)'"
+                    >
+                        <span class="material-icons align-middle me-2">save</span>
+                        Update
+                    </button>
+                </form>
+                {% endif %}
+                
             </div>
-        </div>
-        <!-- Contact & Institute Card -->
-        <div class="col-12 col-md-4">
-            <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
-                style="
-                    background-color: rgba(31, 41, 55, 0.5); 
-                    backdrop-filter: blur(12px);
-                    border-radius: 1rem;
-                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
-                                0 10px 10px -5px rgba(0,0,0,0.04);
-                    overflow: hidden;
-                ">
-                <div class="p-4">
-                    <h2 class="fw-bold mb-4 text-center"
-                        style="font-size: 1.5rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                        Contact & Institute
-                    </h2>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Phone" value="{{ user.profile.phone }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Institute" value="{{ user.profile.institute }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Department" value="{{ user.profile.department }}" readonly>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Role & Location Card -->
-        <div class="col-12 col-md-4">
-            <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
-                style="
-                    background-color: rgba(31, 41, 55, 0.5); 
-                    backdrop-filter: blur(12px);
-                    border-radius: 1rem;
-                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
-                                0 10px 10px -5px rgba(0,0,0,0.04);
-                    overflow: hidden;
-                ">
-                <div class="p-4">
-                    <h2 class="fw-bold mb-4 text-center"
-                        style="font-size: 1.5rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                        Role & Location
-                    </h2>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Role" value="{{ user.profile.role }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="City" value="{{ user.profile.city }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="State" value="{{ user.profile.state }}" readonly>
-                    </div>
-                </div>
+            <div class="px-4 py-2 bg-dark bg-opacity-50 d-flex justify-content-center rounded-bottom-4">
+                <p class="text-sm mb-1" style="color: #9ca3af;">
+                    Want to go back?
+                    <a href="{% url 'workshop_app:index' %}" style="color: #34d399; text-decoration: none;">
+                        Return
+                    </a>
+                </p>
             </div>
         </div>
     </div>
+
+
+    <!-- Statistics Table Card -->
+    <div class="w-100 mx-3" style="max-width: 1000px;">
+    <div class="d-flex justify-content-center align-items-center gap-2 mb-5">
+        <button class="btn btn-info fw-bold" id="state_graph" style="background: linear-gradient(to right, #5bd6e4ff, #057e96ff); color: #fff;">
+            <span class="material-icons align-middle me-2">bar_chart</span>
+            State Chart
+        </button>
+        <button class="btn btn-info fw-bold" id="type_graph" style="background: linear-gradient(to right, #34d399, #059669); color: #fff;">
+            <span class="material-icons align-middle me-2">bar_chart</span>
+            Workshop Chart
+        </button>
+    </div>
+    <div class="shadow-lg rounded-4 overflow-hidden mx-auto"
+        style="max-width: 1000px; background-color: #1f2937;">
+        <div style="max-height: 600px; overflow-x: auto; overflow-y: auto;">
+            <table style="min-width: 600px; width:100%; color: #d1d5db; border-collapse: separate; border-spacing: 0;">
+                <thead style="background-color: #374151;">
+                    <tr>
+                        <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Sr No.</th>
+                        <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Instructor</th>
+                        <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Workshop Date</th>
+                        <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Workshop Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for workshop in Workshops %}
+                        <tr
+                            class="bg-opacity-50 shadow-lg overflow-hidden"
+                            style="
+                                background-color: rgba(31, 41, 55, 0.5);
+                                backdrop-filter: blur(12px);
+                                border-radius: 1rem;
+                                transition: background 0.2s;
+                                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+                                overflow: hidden;
+                            ">
+                            <td class="px-4 py-3 align-middle">
+                                <span style="color: #d1d5db;">{{ forloop.counter }}</span>
+                            </td>
+                            <td class="px-4 py-3 align-middle">
+                                {% if workshop.instructor %}
+                                    <span style="color: #d1d5db;">{{ workshop.instructor }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-3 align-middle">
+                                <span style="color: #d1d5db;">{{ workshop.date }}</span>
+                            </td>
+                            <td class="px-4 py-3 align-middle">
+                                <span style="color: #d1d5db;">{{ workshop.workshop_type }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-{% endblock content %}
+
+
+<!-- Old Code Below 
+    <div class="container">
+        {% if Workshops %}
+            <table class="table table-bordered">
+                <tr>
+                    <th><label for="id_first_name"><h5>First name:</h5></label></th>
+                    <th><label for="id_first_name"><h5>{{ coordinator_profile.user.first_name }}</h5></label></th>
+                </tr>
+                <tr>
+                    <th><label for="id_last_name"><h5>Last name:</h5></label></th>
+                    <th><label for="id_last_name"><h5>{{ coordinator_profile.user.last_name }}</h5></label></th>
+                </tr>
+                <tr>
+                    <th><label for="id_email"><h5>Email:</h5></label></th>
+                    <th><label for="id_email"><h5>{{ coordinator_profile.user.email }}</h5></label></th>
+                </tr>
+                <tr>
+                    <th><label for="id_institute"><h5>Institute:</h5></label></th>
+                    <th><label for="id_institute"><h5>{{ coordinator_profile.user.profile.institute }}</h5></label></th>
+                </tr>
+                <tr>
+                    <th><label for="id_phone_number"><h5>Phone Number:</h5></label></th>
+                    <th><label for="id_phone_number"><h5>{{ coordinator_profile.user.profile.phone_number }}</h5></label>
+                    </th>
+                </tr>
+                <tr>
+                    <th><label for="id_department"><h5>Department:</h5></label></th>
+                    <th><label for="id_department"><h5>{{ coordinator_profile.user.profile.department }}</h5></label></th>
+                </tr>
+                <tr>
+                    <th><label for="id_location"><h5>Location:</h5></label></th>
+                    <th><label for="id_location"><h5>{{ coordinator_profile.user.profile.location }}</h5></label></th>
+                </tr>
+                <tr>
+                    <th><label for="id_position"><h5>Position:</h5></label></th>
+                    <th><label for="id_position"><h5>{{ coordinator_profile.user.profile.position }}</h5></label></th>
+                </tr>
+            </table>
+            <br>
+
+            <div class="container">
+            <h2>Workshop Details</h2>
+            <table class="table table-bordered">
+            <tr>
+                <th><label for="id_instructor_name">Instructor name</label></th>
+                <th><label for="id_workshop_date">Workshop date</label></th>
+                <th><label for="id_workshop_type">Workshop type</label></th>
+            </tr>
+            {% for workshop in Workshops %}
+                {% if workshop.instructor %}
+                    <tr>
+                        <td><label for="id_instructor_name">{{ workshop.instructor }}
+                        </label></td>
+                        <td><label for="id_workshop_date">{{ workshop.date }}</label>
+                        </td>
+                        <td><label for="id_workshop_type">{{ workshop.workshop_type }}</label>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td><label for="id_workshop_date">{{ workshop.date }}</label>
+                        </td>
+                        <td><label for="id_workshop_type">{{ workshop.workshop_type }}</label>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </table>
+            </div>
+            <br><br>
+        {% else %}
+            <form action="" method="post">
+              {% csrf_token %}
+                <div class="row justify-content-center form-group">
+                    <div class="col-md-6">
+                    <form action="" method="post">
+                        <fieldset>
+                            {% csrf_token %}
+                            {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-dismissible alert-danger">
+                                            <button type="button" class="close" data-dismiss="alert">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                            <strong>{{field.label}} : {{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-dismissible alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                        <strong>{{field.label}} : {{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <table class="table table-responsive-sm">
+                                <tr><td>{{form.title}}</td></tr>
+                                <tr><td>{{form.first_name}}</td></tr>
+                                <tr><td>{{form.last_name}}</td></tr>
+                                <tr><td>{{form.phone_number}}</td></tr>
+                                <tr><td>{{form.institute}}</td></tr>
+                                <tr><td>{{form.department}}</td></tr>
+                                <tr><td>{{form.position}}</td></tr>
+                                <tr><td>{{form.location}}</td></tr>
+                                <tr><td>{{form.state}}</td></tr>
+                            </table>
+                            <br>
+                        </fieldset>
+                        <button class="btn btn-success btn-lg" type="submit">
+                            <i class="fa fa-pencil-square-o"></i>&nbsp;Update</button>
+                        <a href="{% url 'workshop_app:index' %}" class="btn btn-primary btn-lg">Cancel
+                        </a>
+                    </form>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+
+-->
+    {% endblock %}

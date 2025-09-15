@@ -11,9 +11,13 @@
 
 
 {% block content %}
+
+
+
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    
     <div class="w-100 mx-3" style="max-width: 448px;">
-        <div class=" bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+        <div class=" bg-opacity-50 rounded-4 shadow-lg overflow-hidden d-flex flex-column"
             style="
                 background-color: rgba(31, 41, 55, 0.5); 
                 backdrop-filter: blur(12px);
@@ -22,12 +26,12 @@
                             0 10px 10px -5px rgba(0,0,0,0.04);
                 overflow: hidden;  "
         >
-            <div class="p-4 p-md-5">
+            <div class="p-4 p-md-5 flex-grow-1">
                 <h2 class="fw-bold mb-4 text-center"
                     style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                     Edit Workshop Type
                 </h2>
-                <div class="d-flex flex-column" style="color: #d1d5db;  ">
+                
                 <form method="post" enctype="multipart/form-data" autocomplete="off">
                     {% csrf_token %}
                     <!-- Workshop Name -->
@@ -176,48 +180,72 @@
                         {% endif %}
                     </div>
 
-                    <h3 class="fw-bold mb-3 text-center" style="color: #34d399;">Attachments</h3>
-                    {{ form_file.management_form }}
-                    {{ form_file.non_form_errors }}
-                    <div style="max-height: 220px; overflow-y: auto;">
-                        {% for form in form_file %}
-                            <div class="my-3 rounded-4 shadow-sm p-3 bg-dark bg-opacity-50">
-                                <div class="row">
-                                    <div class="col-11">
-                                        {% for field in form %}
-                                            <div class="mb-2">{{ field }}</div>
-                                        {% endfor %}
+                    <div class="mb-4 position-relative">
+                        <label class="fw-bold mb-2 d-flex align-items-center" style="color: #34d399;">
+                            <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">attach_file</span>
+                            Attachments
+                        </label>
+                        {{ form_file.management_form }}
+                        {{ form_file.non_form_errors }}
+                        <div style="max-height: 220px; overflow-y: auto;">
+                            {% for form in form_file %}
+                                <div class="my-3 rounded-3 shadow-lg p-4"
+                                    style="background-color: #374151; color: #fff; border-radius: 0.75rem;">
+                                    <div >
+                                        <div  class="d-flex flex-column" style="color: #d1d5db;  "  >
+                                            {% for field in form %}
+                                                {% if field.label == "Currently" %}
+                                                    <p class="text-xl " style="word-break: break-word; color: #34d399;">
+                                                        Currently : {{ field }}
+                                                    </p>
+                                                {% elif field.label == "Change" %}
+                                                    <p class="text-xl " style="word-break: break-word; white-space">
+                                                        <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">edit</span>
+                                                        Change : {{ field }}
+                                                    </p>
+                                                {% else %}
+                                                    <div class="mb-2">{{ field }}</div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        {% if form.id.value %}
+                                        <div class="col-12 col-md-1 d-flex align-items-center justify-content-end mt-2 mt-md-0">
+                                            <a href="{% url 'workshop_app:delete_attachment_file' form.id.value %}">
+                                                <button class="btn btn-sm btn-danger fw-bold" type="button">Delete</button>
+                                            </a>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    {% if form.id.value %}
-                                    <div class="col-1 d-flex align-items-center">
-                                        <a href="{% url 'workshop_app:delete_attachment_file' form.id.value %}">
-                                            <button class="btn btn-sm btn-danger" type="button">Delete</button>
-                                        </a>
-                                    </div>
-                                    {% endif %}
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-end mt-4">
-                        <button type="submit"
-                            class="py-3 px-4 border-0 rounded-3 shadow-lg fw-bold text-white"
-                            style="background: linear-gradient(to right, #34d399, #059669); min-width: 120px; transition: transform 0.2s;"
-                            onmouseover="this.style.transform='scale(1.02)'"
-                            onmouseout="this.style.transform='scale(1)'"
-                            onmousedown="this.style.transform='scale(0.98)'"
-                            onmouseup="this.style.transform='scale(1)'"
-                        >
-                            <span class="material-icons align-middle me-2">save</span>
-                            Save
-                        </button>
-                    </div>
+
+                    <button type="submit"
+                        class="w-100 py-3 px-4 border-0 rounded-3 shadow-lg fw-bold text-white"
+                        style="background: linear-gradient(to right, #34d399, #059669); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='scale(1.02)'"
+                        onmouseout="this.style.transform='scale(1)'"
+                        onmousedown="this.style.transform='scale(0.98)'"
+                        onmouseup="this.style.transform='scale(1)'"
+                    >
+                        <span class="material-icons align-middle me-2">save</span>
+                        Save
+                    </button>
                 </form>
-                </div>
             </div>
+            <div class="px-4 py-2 bg-dark bg-opacity-50 d-flex justify-content-center rounded-bottom-4">
+                    <p class="text-sm mb-1" style="color: #9ca3af;">
+                        Return back ?
+                        <a href="{% url 'workshop_app:index' %}" style="color: #fa770cff; text-decoration: none;">
+                            Cancel
+                        </a>
+                    </p>
+                </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(function () {
         $(".inline.{{ form_file.prefix }}").formset({

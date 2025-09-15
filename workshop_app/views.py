@@ -463,17 +463,42 @@ def add_workshop_type(request):
 
 @login_required
 def view_profile(request, user_id):
-    """Instructor can view coordinator profile """
+    """Instructor can view coordinator profile, coordinator can view/edit own profile"""
     user = request.user
     if is_instructor(user) and is_email_checked(user):
         coordinator_profile = Profile.objects.get(user_id=user_id)
-        workshops = Workshop.objects.filter(coordinator=user_id).order_by(
-            'date')
-
-        return render(request, "workshop_app/view_profile.html",
-                      {"coordinator_profile": coordinator_profile,
-                       "Workshops": workshops})
-    return redirect(get_landing_page(user))
+        workshops = Workshop.objects.filter(coordinator=user_id).order_by('date')
+        # Instructor view: only coordinator_profile and workshops
+        return render(request, "workshop_app/view_profile.html", {
+            "coordinator_profile": coordinator_profile,
+            "Workshops": workshops,
+            "is_instructor": True,
+        })
+    elif user.id == user_id and is_email_checked(user):
+        # Coordinator viewing own profile
+        profile = user.profile
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, user=user, instance=profile)
+            if form.is_valid():
+                form_data = form.save(commit=False)
+                form_data.user = user
+                form_data.user.first_name = request.POST['first_name']
+                form_data.user.last_name = request.POST['last_name']
+                form_data.user.save()
+                form_data.save()
+                messages.add_message(request, messages.SUCCESS, "Profile updated.")
+                return redirect(reverse("workshop_app:view_own_profile"))
+            else:
+                messages.add_message(request, messages.ERROR, "Profile update failed!")
+        else:
+            form = ProfileForm(user=user, instance=profile)
+        # Coordinator view: editable form
+        return render(request, "workshop_app/view_profile.html", {
+            "profile": profile,
+            "Workshops": None,
+            "form": form,
+            "is_instructor": False,
+        })
 
 
 @login_required

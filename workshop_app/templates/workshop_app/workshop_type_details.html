@@ -7,6 +7,7 @@
 
 {% block content %}
     
+
     <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
         <div class="w-100 mx-3" style="max-width: 448px;">
             <div class=" bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
@@ -24,22 +25,25 @@
                         Workshop Type Details
                     </h2>
                     <div class="profile-card">
-                        
+
                         <p class="text-xl " style="word-break: break-word; white-space">
-                            <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
-                            Workshop Name : {{ workshop_type.name }}
-                        </p>
+                            <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">school</span>
+                             Workshop Name : {{ workshop_type.name }}
                         
-                        <p class="text-xl" style="word-break: break-word;">
-                            <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
-                            Duration : {{ workshop_type.duration }} day(s)
                         </p>
-                        <p class="text-xl" style="word-break: break-word; ">
-                            <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
+                        <p class="text-xl" style="word-break: break-word;">
+                             <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">timer</span>
+                             Duration : {{ workshop_type.duration }} day(s)
+                        </p>
+                        <p class="text-xl" style="word-break: break-word;">
+                            <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">description</span>
+                            
                             Description : {{ workshop_type.description }}
                         </p>
                         <p class="text-xl" style="word-break: break-word;">
-                            <i class="bi bi-check-circle-fill" style="color: #34d399; margin-right: 0.5em;"></i>
+                            <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">gavel</span>
+                            
+                           
                             Terms and Conditions : {{ workshop_type.terms_and_conditions }}
                         </p>
                     </div>

@@ -18,8 +18,9 @@
 
 {% block content %}
     {% if not workshops %}
-        <div class="main-cont" style="height: 100%;">
-            <h2 class="fw-bold mb-4 text-center"
+
+        <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh;">
+            <h2 class="fw-bold mb-4 mx-1 text-center"
                 style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 Welcome {{ user.first_name }}
             </h2>
