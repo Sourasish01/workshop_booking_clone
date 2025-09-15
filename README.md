@@ -110,7 +110,7 @@ Now, open: **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** 🎉
   
   | Before | After |
   | ------ | ----- |
-  | ![Before login]() | ![After login 1](screenshots/forgot_password/new/Screenshot%202025-09-16%20020028.png)<br>![After login 2](screenshots/forgot_password/new/Screenshot%202025-09-16%20020008.png) |
+  | ![Before login](screenshots/forgot_password/new/Screenshot%202025-09-16%20020008.png) | ![After login 1](screenshots/forgot_password/new/Screenshot%202025-09-16%20020028.png)<br>![After login 2](screenshots/forgot_password/new/Screenshot%202025-09-16%20020008.png) |
 </details>
 
 <details>
@@ -229,7 +229,7 @@ Now, open: **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** 🎉
   
   | Before | After |
   | ------ | ----- |
-  | ![Before login]() |![After login 1](screenshots)<br>![After login 2](screenshots) |
+  | ![Before login](screenshots/add_workshop_type/new/Screenshot%202025-09-16%20034309.png) |![After login 1](screenshots)<br>![After login 2](screenshots) |
 </details>
 
 <details>
