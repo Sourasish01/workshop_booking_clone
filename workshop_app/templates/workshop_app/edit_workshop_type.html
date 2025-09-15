@@ -9,69 +9,170 @@
     <script src="{% static 'workshop_app/js/jquery.formset.js' %}"></script>
 {% endblock %}
 
+
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="w-100 mx-2" style="max-width: 448px;">
-        <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+    <div class="w-100 mx-3" style="max-width: 448px;">
+        <div class=" bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
             style="
-                background-color: rgba(31,41,55,0.85);
+                background-color: rgba(31, 41, 55, 0.5); 
                 backdrop-filter: blur(12px);
                 border-radius: 1rem;
-                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-                overflow: hidden;
-            ">
+                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
+                            0 10px 10px -5px rgba(0,0,0,0.04);
+                overflow: hidden;  "
+        >
             <div class="p-4 p-md-5">
                 <h2 class="fw-bold mb-4 text-center"
                     style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                    View / Edit Workshop Type
+                    Edit Workshop Type
                 </h2>
+                <div class="d-flex flex-column" style="color: #d1d5db;  ">
                 <form method="post" enctype="multipart/form-data" autocomplete="off">
                     {% csrf_token %}
                     <!-- Workshop Name -->
-                    <div class="mb-4">
-                        <label for="{{ form.name.id_for_label }}" class="fw-bold mb-2" style="color: #34d399;">
+                    <div class="mb-4 position-relative">
+                        <label for="{{ form.name.id_for_label }}" class=" mb-1" style="color: #34d399;">
                             <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">school</span>
                             Workshop Name
                         </label>
-                        {{ form.name }}
+                        <div class="position-relative">
+                            <input
+                                type="text"
+                                name="{{ form.name.name }}"
+                                id="{{ form.name.id_for_label }}"
+                                value="{{ form.name.value|default_if_none:'' }}"
+                                class="w-100  px-3 py-2"
+                                style="
+                                    background-color: #374151;
+                                    opacity: 1;
+                                    border-radius: 0.75rem;
+                                    border: 1px solid #374151;
+                                    color: #fff;
+                                    transition: border-color 0.2s, box-shadow 0.2s;
+                                    box-shadow: none;
+                                "
+                                placeholder="Workshop name"
+                                required
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                            />
+                        </div>
                         {% if form.name.errors %}
                             <div class="text-danger small mt-1">{{ form.name.errors }}</div>
                         {% endif %}
                     </div>
+
                     <!-- Duration -->
-                    <div class="mb-4">
-                        <label for="{{ form.duration.id_for_label }}" class="fw-bold mb-2" style="color: #34d399;">
+                    <div class="mb-4 position-relative">
+                        <label for="{{ form.duration.id_for_label }}" class=" mb-1" style="color: #34d399;">
                             <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">timer</span>
-                            Duration
+                            Duration (days)
                         </label>
-                        {{ form.duration }}
-                        {% if form.duration.help_text %}
-                            <div class="text-muted small mt-1">{{ form.duration.help_text }}</div>
-                        {% endif %}
+                        <div class="position-relative">
+                            <input
+                                type="number"
+                                name="{{ form.duration.name }}"
+                                id="{{ form.duration.id_for_label }}"
+                                value="{{ form.duration.value|default_if_none:'' }}"
+                                class="w-100 px-3 py-2"
+                                style="
+                                    background-color: #374151;
+                                    opacity: 1;
+                                    border-radius: 0.75rem;
+                                    border: 1px solid #374151;
+                                    color: #fff;
+                                    transition: border-color 0.2s, box-shadow 0.2s;
+                                    box-shadow: none;
+                                "
+                                placeholder="Duration (days)"
+                                required
+                                min="1"
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                            />
+                        </div>
+                        
                         {% if form.duration.errors %}
-                            <div class="text-danger small mt-1">{{ form.duration.errors }}</div>
+                            <div class="text-danger small mt-1">
+                                {% for error in form.duration.errors %}{{ error }}{% endfor %}
+                            </div>
                         {% endif %}
                     </div>
+                
                     <!-- Description -->
-                    <div class="mb-4">
-                        <label for="{{ form.description.id_for_label }}" class="fw-bold mb-2" style="color: #34d399;">
+                    <div class="mb-4 position-relative">
+                        <label for="{{ form.description.id_for_label }}" class=" mb-1" style="color: #34d399;">
                             <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">description</span>
                             Description
                         </label>
-                        {{ form.description }}
+                        <div class="position-relative">
+                            <textarea
+                                name="{{ form.description.name }}"
+                                id="{{ form.description.id_for_label }}"
+                                class="w-100 px-3 py-2"
+                                style="
+                                    background-color: #374151;
+                                    opacity: 1;
+                                    border-radius: 0.75rem;
+                                    border: 1px solid #374151;
+                                    color: #fff;
+                                    transition: border-color 0.2s, box-shadow 0.2s;
+                                    box-shadow: none;
+                                    resize: vertical;
+                                    min-height: 100px;
+                                "
+                                placeholder="Description"
+                                required
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                            >{{ form.description.value|default_if_none:'' }}</textarea>
+                        </div>
+                        {% if form.description.help_text %}
+                            <div class="text-muted small mt-1">{{ form.description.help_text }}</div>
+                        {% endif %}
                         {% if form.description.errors %}
-                            <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+                            <div class="text-danger small mt-1">
+                                {% for error in form.description.errors %}{{ error }}{% endfor %}
+                            </div>
                         {% endif %}
                     </div>
+
                     <!-- Terms and Conditions -->
-                    <div class="mb-4">
+                    <div class="mb-4 position-relative">
                         <label for="{{ form.terms_and_conditions.id_for_label }}" class="fw-bold mb-2" style="color: #34d399;">
                             <span class="material-icons align-middle me-2" style="font-size: 1.25rem;">gavel</span>
                             Terms and Conditions
                         </label>
-                        {{ form.terms_and_conditions }}
+                        <div class="position-relative">
+                            <textarea
+                                name="{{ form.terms_and_conditions.name }}"
+                                id="{{ form.terms_and_conditions.id_for_label }}"
+                                class="w-100 px-3 py-2"
+                                style="
+                                    background-color: #374151;
+                                    opacity: 1;
+                                    border-radius: 0.75rem;
+                                    border: 1px solid #374151;
+                                    color: #fff;
+                                    transition: border-color 0.2s, box-shadow 0.2s;
+                                    box-shadow: none;
+                                    resize: vertical;
+                                    min-height: 100px;
+                                "
+                                placeholder="Terms and Conditions"
+                                required
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                            >{{ form.terms_and_conditions.value|default_if_none:'' }}</textarea>
+                        </div>
+                        {% if form.terms_and_conditions.help_text %}
+                            <div class="text-muted small mt-1">{{ form.terms_and_conditions.help_text }}</div>
+                        {% endif %}
                         {% if form.terms_and_conditions.errors %}
-                            <div class="text-danger small mt-1">{{ form.terms_and_conditions.errors }}</div>
+                            <div class="text-danger small mt-1">
+                                {% for error in form.terms_and_conditions.errors %}{{ error }}{% endfor %}
+                            </div>
                         {% endif %}
                     </div>
 
@@ -112,6 +213,7 @@
                         </button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
