@@ -1,8 +1,434 @@
 {% extends 'workshop_app/base.html' %}
 
-{% block title %} Statistics {% endblock %}
+{% block title %}
+    Workshop Statistics
+{% endblock %}
+
+{% block extra-dependencies %}
+   
+    
+{% endblock %}
+
+{% block extra-custom-scripts %}
+    <script>
+        var dateToday = new Date();
+        var upto = new Date();
+
+        dateToday.setDate(dateToday.getDate() + 3);
+        upto.setFullYear(dateToday.getFullYear() + 1);
+
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: dateToday,
+                maxDate: upto,
+                beforeShowDay: $.datepicker.noWeekends,
+            });
+
+            $('#disp_tnc').click(function (e) {
+                e.preventDefault();
+                if ($('#id_workshop_type').val() === '')
+                    $('.modal-body').html("<p class='text-danger'>Please select a workshop type</p>");
+                else {
+                    $.ajax({
+                        url: '/workshop/type_tnc/' + $('#id_workshop_type').val(),
+                        success: function (data) {
+                            $('.modal-body').html(data.tnc);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}
 
 {% block content %}
+<div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-4 gap-lg-0 mx-3" style="min-height: 80vh;">
+    
+    <!-- Filter Card -->
+    <div class="w-100 mx-3 mb-5 mb-lg-0 mb-md-0" style="max-width: 448px;">
+        <div class="bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+            style="
+                background-color: rgba(31, 41, 55, 0.5); 
+                backdrop-filter: blur(12px);
+                border-radius: 1rem;
+                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
+                            0 10px 10px -5px rgba(0,0,0,0.04);
+                overflow: hidden;  "
+        >
+            <div class="p-4 p-md-5">
+                <h2 class="fw-bold mb-4 text-center"
+                    style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                     Stats Filter Options
+                </h2>
+
+                <form method="get" autocomplete="off">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <strong>{{ error|escape }}</strong>
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+
+                    <!-- From Date -->
+                    <div class="mb-4 position-relative">
+                        <div class="position-relative">
+                            <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">event</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="{{ form.from_date.name }}"
+                                id="{{ form.from_date.id_for_label }}"
+                                value="{{ form.from_date.value|default_if_none:'' }}"
+                                class="datepicker w-100 ps-5 pe-3 py-2"
+                                style="background-color: #374151; color: #fff; border-radius: 0.75rem; border: 1px solid #374151;"
+                                placeholder="From Date"
+                                autocomplete="off"
+                                required
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                            />
+                        </div>
+                        {% if form.from_date.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.from_date.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- To Date -->
+                    <div class="mb-4 position-relative">
+                        <div class="position-relative">
+                            <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">event</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="{{ form.to_date.name }}"
+                                id="{{ form.to_date.id_for_label }}"
+                                value="{{ form.to_date.value|default_if_none:'' }}"
+                                class="datepicker w-100 ps-5 pe-3 py-2"
+                                style="background-color: #374151; color: #fff; border-radius: 0.75rem; border: 1px solid #374151;"
+                                placeholder="To Date"
+                                autocomplete="off"
+                                required
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                            />
+                        </div>
+                        {% if form.to_date.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.to_date.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Workshop Type -->
+                    <div class="mb-4 position-relative">
+                        <div class="position-relative">
+                            <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">category</span>
+                            </div>
+                            {% if form.workshop_type.field.widget.input_type == "select" %}
+                                <select name="{{ form.workshop_type.name }}" id="{{ form.workshop_type.id_for_label }}"
+                                    class="w-100 ps-5 pe-3 py-2"
+                                    style="background-color: #374151; color: #fff; border-radius: 0.75rem; border: 1px solid #374151;"
+                                    onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                    onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"/>
+                                    {% for option in form.workshop_type.field.choices %}
+                                        <option value="{{ option.0 }}" {% if option.0 == form.workshop_type.value %}selected{% endif %}>{{ option.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                {{ form.workshop_type }}
+                            {% endif %}
+                        </div>
+                        {% if form.workshop_type.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.workshop_type.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- State -->
+                    <div class="mb-4 position-relative">
+                        <div class="position-relative">
+                            <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">location_on</span>
+                            </div>
+                            {% if form.state.field.widget.input_type == "select" %}
+                                <select name="{{ form.state.name }}" id="{{ form.state.id_for_label }}"
+                                    class="w-100 ps-5 pe-3 py-2"
+                                    style="background-color: #374151; color: #fff; border-radius: 0.75rem; border: 1px solid #374151;"
+                                    onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                    onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"/>
+                                    {% for option in form.state.field.choices %}
+                                        <option value="{{ option.0 }}" {% if option.0 == form.state.value %}selected{% endif %}>{{ option.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                {{ form.state }}
+                            {% endif %}
+                        </div>
+                        {% if form.state.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.state.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="mb-4 position-relative">
+                        <div class="position-relative">
+                            <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">sort</span>
+                            </div>
+                            <select name="{{ form.sort.name }}" id="{{ form.sort.id_for_label }}"
+                                class="w-100 ps-5 pe-3 py-2"
+                                style="background-color: #374151; color: #fff; border-radius: 0.75rem; border: 1px solid #374151;"
+                                onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"/>
+                                {% for option in form.sort.field.choices %}
+                                    <option value="{{ option.0 }}" {% if option.0 == form.sort.value %}selected{% endif %}>{{ option.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% if form.sort.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.sort.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Show My Workshops Only (if authenticated) -->
+                    {% if request.user.is_authenticated %}
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input
+                                type="checkbox"
+                                name="{{ form.show_workshops.name }}"
+                                id="{{ form.show_workshops.id_for_label }}"
+                                {% if form.show_workshops.value %}checked{% endif %}
+                                class="form-check-input"
+                                onfocus="this.style.outline='none';"
+                                onblur="this.style.outline='none';"
+                            />
+                            <label class="form-check-label" for="{{ form.show_workshops.id_for_label }}" style="color: #d1d5db;">
+                                {{ form.show_workshops.help_text }}
+                            </label>
+                        </div>
+                        {% if form.show_workshops.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.show_workshops.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-flex flex-row justify-content-center align-items-center gap-2 mt-3">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-eye"></i>&nbsp;View
+                        </button>
+                        <button type="submit" class="btn btn-info" name="download" value="download">
+                            <i class="fa fa-download"></i>&nbsp;Download
+                        </button>
+                        <a href="{% url 'statistics_app:public' %}" class="btn btn-outline-info">
+                            <i class="fa fa-times"></i>&nbsp;Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="px-4 py-2 bg-dark bg-opacity-50 d-flex justify-content-center rounded-bottom-4">
+                <p class="text-sm mb-1" style="color: #9ca3af;">
+                    Return back ?
+                    <a href="/" style="color: #34d399; text-decoration: none;">
+                        click here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Statistics Table Card -->
+    <div class="w-100 mx-3" style="max-width: 1000px;">
+        <div class="d-flex justify-content-center align-items-center gap-2 mb-5">
+            <button class="btn btn-info fw-bold" id="state_graph" style="background: linear-gradient(to right, #5bd6e4ff, #057e96ff); color: #fff;">
+                <span class="material-icons align-middle me-2">bar_chart</span>
+                State Chart
+            </button>
+            <button class="btn btn-info fw-bold" id="type_graph" style="background: linear-gradient(to right, #34d399, #059669); color: #fff;">
+                <span class="material-icons align-middle me-2">bar_chart</span>
+                Workshop Chart
+            </button>
+        </div>
+        <div class="shadow-lg rounded-4 overflow-hidden mx-auto"
+            style="max-width: 1000px; background-color: #1f2937;">
+            <div style="max-height: 600px; overflow-x: auto; overflow-y: auto;">
+                <table style="min-width: 600px; width:100%; color: #d1d5db; border-collapse: separate; border-spacing: 0;">
+                    <thead style="background-color: #374151;">
+                        <tr>
+                            <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Sr No.</th>
+                            <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Coordinator</th>
+                            <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Institute</th>
+                            <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Instructor</th>
+                            <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Workshop</th>
+                            <th class="px-4 py-3 text-xs font-medium text-gray-300 text-uppercase tracking-wider" style="color: #d1d5db;">Date</th>
+                        </tr>
+                    </thead>
+                    
+                        <tbody>
+                        {% csrf_token %}
+                        {% for workshop in objects %}
+                            <tr
+                                class="bg-opacity-50 shadow-lg overflow-hidden"
+                                style="
+                                    background-color: rgba(31, 41, 55, 0.5);
+                                    backdrop-filter: blur(12px);
+                                    border-radius: 1rem;
+                                    transition: background 0.2s;
+                                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+                                    overflow: hidden;
+                                ">
+                                <td class="px-4 py-3 align-middle">
+                                    <span style="color: #d1d5db;">{{ forloop.counter0|add:objects.start_index }}</span>
+                                </td>
+
+                                <td class="px-4 py-3 align-middle">
+                                    <span style="color: #d1d5db;">{{ workshop.coordinator.get_full_name | capfirst }}</span>
+                                </td>
+                                
+                                <td class="px-4 py-3 align-middle">
+                                    <span style="color: #d1d5db;">{{ workshop.coordinator.profile.institute | capfirst }}</span>
+                                </td>
+                                
+                                <td class="px-4 py-3 align-middle">
+                                    <span style="color: #d1d5db;">{{  workshop.instructor.get_full_name | capfirst }}</span>
+                                </td>
+                                
+                                <td class="px-4 py-3 align-middle">
+                                    <span style="color: #d1d5db;">{{ workshop.workshop_type.name }}</span>
+                                </td>
+                                <td class="px-4 py-3 align-middle">
+                                    <span style="color: #d1d5db;">{{  workshop.date | date }}</span>
+                                </td>
+                                
+                                
+                                
+                        
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Chart Modal -->
+<div class="modal fade"
+     id="workshopModal"
+     tabindex="-1"
+     aria-labelledby="workshopModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="workshopModalLabel">Workshops Statistics</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="chart-container"
+               style="position: relative; height:60vh; width:100%">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var state_labels = {{ws_states|safe}};
+  var state_data = {{ws_count|safe}};
+  var type_labels = {{ws_type|safe}};
+  var type_data = {{ws_type_count|safe}};
+  var chart;
+
+  $("#state_graph").on("click", function() {
+      show_graph(state_labels, state_data, "State wise workshops");
+  });
+  $("#type_graph").on("click", function() {
+      show_graph(type_labels, type_data, "Type wise workshops");
+  });
+
+  function show_graph(labels, data, graph_name) {
+      var ctx = document.getElementById('myChart').getContext('2d');
+      if(chart) chart.destroy();
+      chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [{
+                  data: data,
+                  label: graph_name,
+                  backgroundColor: 'rgba(52, 211, 153, 0.7)',
+                  borderColor: 'rgb(5, 150, 105)',
+                  borderWidth: 2,
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  legend: {
+                      display: true,
+                      position: 'top',
+                      labels: {
+                          color: '#374151',
+                          font: { size: 16 }
+                      }
+                  },
+                  title: {
+                      display: true,
+                      text: graph_name,
+                      color: '#059669',
+                      font: { size: 20 }
+                  }
+              },
+              scales: {
+                  x: {
+                      ticks: { color: '#059669', font: { size: 14 } },
+                      grid: { color: '#374151' }
+                  },
+                  y: {
+                      ticks: { color: '#059669', font: { size: 14 } },
+                      grid: { color: '#374151' }
+                  }
+              }
+          }
+      });
+      var modal = new bootstrap.Modal(document.getElementById('workshopModal'));
+      modal.show();
+  }
+</script>
+{% endblock %}
+
+<!--
+
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -92,7 +518,7 @@
     </div>
 </div>
 
-<!-- The Modal -->
+
 <div id="dialog" title="Workshops Statistics">
     <canvas id="myChart"></canvas>
 </div>
@@ -137,4 +563,6 @@
     }
 </script>
 
-{% endblock %}
+
+
+-->

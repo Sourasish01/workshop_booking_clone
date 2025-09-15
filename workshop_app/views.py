@@ -429,8 +429,10 @@ def workshop_details(request, workshop_id):
             form_data.author = request.user
             form_data.created_date = timezone.now()
             form_data.workshop = workshop
-            form.save()
+            form_data.save()
             messages.add_message(request, messages.SUCCESS, "Comment posted")
+            # Redirect after successful POST to prevent duplicate submissions
+            return redirect('workshop_app:workshop_details', workshop_id=workshop.id)
         else:
             messages.add_message(request, messages.ERROR, "Error posting comment")
     if is_instructor(request.user):
@@ -440,7 +442,6 @@ def workshop_details(request, workshop_id):
     return render(request, 'workshop_app/workshop_details.html',
                   {'workshop': workshop, 'workshop_comments': workshop_comments,
                    'form': CommentsForm(initial={'public': True})})
-
 
 @login_required
 def add_workshop_type(request):

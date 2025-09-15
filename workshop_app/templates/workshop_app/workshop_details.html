@@ -5,80 +5,155 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <table class="table table-bordered">
-            <tr>
-                <th><label for="id_first_name">Workshop Type :</label></th>
-                <td><label for="id_first_name"><a
-                        href="{% url 'workshop_app:workshop_type_details' workshop.workshop_type_id %}">{{ workshop.workshop_type }}</a></label>
-                </td>
-            </tr>
-            <tr>
-                <th><label for="id_last_name">Date :</label></th>
-                <td><label for="id_last_name">{{ workshop.date }}</label></td>
-            </tr>
-            <tr>
-                <th><label for="id_email">Coordinator :</label></th>
-                <td><label for="id_email">{{ workshop.coordinator.get_full_name|title }}</label>
-                </td>
-            </tr>
-            {% if workshop.status %}
-                <tr>
-                    <th><label for="id_institute">Status :</label></th>
-                    <td><span class="badge badge-success">{{ workshop.get_status }}</span></td>
-                </tr>
-                <tr>
-                    <th><label for="id_phone_number">Instructor :</label></th>
-                    <td><label for="id_email">{{ workshop.instructor.get_full_name|title }}</label>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <th><label for="id_institute">Status :</label></th>
-                    <td><span class="badge badge-warning">{{ workshop.get_status }}</span></td>
-                </tr>
-            {% endif %}
-        </table>
-        <br>
-        <div class="container">
-            <div class="card mt-2 mb-5">
-                <form method="post">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="mx-3 font-weight-bold">Post a comment</div>
-                            {% if request.user.profile.position == 'instructor' %}
-                                <div class="ml-5">{{ form.public }} Public</div>
-                                <div class="ml-1 text-muted">(Non-public comments are visible only to instructors)</div>
+
+
+
+
+
+
+
+    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-4 gap-lg-0 mx-3" style="min-height: 80vh;">
+
+        <div class="w-100 mx-3 mb-5 mb-lg-0 mb-md-0" style="max-width: 448px;">
+            <div class=" bg-opacity-50 rounded-4 shadow-lg overflow-hidden"
+                style="
+                    background-color: rgba(31, 41, 55, 0.5); 
+                    backdrop-filter: blur(12px);
+                    border-radius: 1rem;
+                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 
+                                0 10px 10px -5px rgba(0,0,0,0.04);
+                    overflow: hidden;  "
+            >
+                <div class="p-4 p-md-5 ">
+                    <h2 class="fw-bold mb-4 text-center"
+                        style="font-size: 2rem; background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Workshop Details
+                    </h2>
+                    <div class="d-flex flex-column" style="color: #d1d5db;  ">
+                        
+                        <p class="text-xl " style="word-break: break-word; white-space">
+                            <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">category</span>
+                            Workshop Type : {{ workshop.workshop_type }}
+                        </p>
+                        
+                        <p class="text-xl" style="word-break: break-word;">
+                             <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">calendar_today</span>
+                            Date : {{ workshop.date }}
+                        </p>
+
+                        <p class="text-xl" style="word-break: break-word; ">
+                            <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">description</span>
+                            Coordinator: {{ workshop.coordinator.get_full_name|title }}
+                        </p>
+
+                        <p class="text-xl" style="word-break: break-word;">
+                            <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">hourglass_empty</span>
+                            Status : {{ workshop.get_status }}
+                        </p>
+                        {% if workshop.status %}
+                            <p class="text-xl" style="word-break: break-word;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">person</span>
+                                Instructor : {{ workshop.instructor.get_full_name|title }}
+                            </p>
+                        {% else %}
+                            <p class="text-xl" style="word-break: break-word;">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">person</span>
+                                Instructor : Not Assigned
+                            </p>
+                        {% endif %}
+                    </div>
+                    <form method="post" autocomplete="off">
+                        <div class="mb-4 position-relative">
+                            <div class="position-relative">
+                                <div class="position-absolute top-50 start-0 translate-middle-y d-flex align-items-center ps-3" style="pointer-events: none;">
+                                    <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">gavel</span>
+                                </div>
+                                <textarea
+                                    name="comment"
+                                    id="id_comment"
+                                    class="w-100 ps-5 pe-3 py-2"
+                                    style="
+                                        background-color: #374151;
+                                        opacity: 1;
+                                        border-radius: 0.75rem;
+                                        border: 1px solid #374151;
+                                        color: #fff;
+                                        transition: border-color 0.2s, box-shadow 0.2s;
+                                        box-shadow: none;
+                                        resize: vertical;
+                                        min-height: 100px;
+                                    "
+                                    placeholder="Comment"
+                                    required
+                                    onfocus="this.style.borderColor='#34d399'; this.style.boxShadow='0 0 0 2px #34d399'; this.style.outline='none';"
+                                    onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+                                >{{ form.comment.value|default_if_none:'' }}</textarea>
+                            </div>
+                            {% if form.comment.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.comment.errors %}{{ error }}{% endfor %}
+                                </div>
                             {% endif %}
                         </div>
-                    </div>
-                    <div class="card-body">
-                        {{ form.comment }}
-                    </div>
-                    <button type="submit" class="float-right btn btn-primary btn-md m-2">Post</button>
-                </form>
-            </div>
-            <br><br>
-            <h2 class="text-center">Comments</h2>
-            <br>
-            {% for comment in workshop_comments %}
-                <div class="card my-2">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="ml-3 font-weight-bold"><a
-                                    href="{% url 'workshop_app:view_profile' comment.author_id %}">{{ comment.author }}</a></div>
-                            {% if not comment.public %}
-                                <div class="ml-1"><span class="badge badge-dark">Hidden</span></div>
-                            {% endif %}
-                            <div class="ml-3 text-muted">{{ comment.created_date }}</div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>{{ comment.comment }}</p>
-                    </div>
+
+                        <button type="submit"
+                            class="w-100 py-3 px-4 border-0 rounded-3 shadow-lg fw-bold text-white"
+                            style="background: linear-gradient(to right, #34d399, #059669); transition: transform 0.2s;"
+                            onmouseover="this.style.transform='scale(1.02)'"
+                            onmouseout="this.style.transform='scale(1)'"
+                            onmousedown="this.style.transform='scale(0.98)'"
+                            onmouseup="this.style.transform='scale(1)'"
+                        >
+                            <span class="material-icons align-middle me-2">send</span>
+                            Post
+                        </button>
+                    </form>
+                </div>    
+                <div class="px-4 py-2 bg-dark bg-opacity-50 d-flex justify-content-center rounded-bottom-4">
+                    <p class="text-sm mb-1" style="color: #9ca3af;">
+                        Return back ?
+                        <a href="/" style="color: #34d399; text-decoration: none;">
+                            click here
+                        </a>
+                    </p>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    </div>
+
+        <div class="w-100 mx-3" style="max-width: 448px;">
+            <h2 class="fw-bold mb-3 text-center" style="color: #34d399;">Comments</h2>
+            <div style="max-height: 550px; overflow-y: auto;">
+                
+                {% for comment in workshop_comments %}
+                    <div class="my-3 rounded-4 shadow-lg overflow-hidden"
+                        style="background-color: rgba(31,41,55,0.85); border-radius: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.18);">
+                        <div class="px-4 py-3 d-flex align-items-center justify-content-between" style="border-bottom: 1px solid #374151;">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="material-icons" style="font-size: 1.25rem; color: #34d399;">person</span>
+                                <a href="{% url 'workshop_app:view_profile' comment.author_id %}" style="color: #34d399; font-weight: 600; text-decoration: none;">
+                                    {{ comment.author }}
+                                </a>
+                                {% if not comment.public %}
+                                    <span class="badge rounded-pill px-3 py-1" style=" color: #fbbf24; font-size: 0.85rem; margin-left: 0.75rem;">
+                                        Instructor
+                                    </span>
+                                {% else %}
+                                    <span class="badge rounded-pill px-3 py-1" style=" color: #1fceceff; font-size: 0.85rem; margin-left: 0.75rem;">
+                                            Coordinator
+                                    </span>
+
+                                {% endif %}
+                            </div>
+                            <div class="text-muted" style="font-size: 0.95rem;">{{ comment.created_date }}</div>
+                        </div>
+                        <div class="px-4 py-3" style="color: #d1d5db; font-size: 1.05rem;">
+                            {{ comment.comment }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+            
 
 {% endblock %}

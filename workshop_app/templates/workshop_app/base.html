@@ -42,8 +42,8 @@
 
 <body>
     <div class = "background-gradient">
-        <!-- Floating Shapes -->
-        <!-- Floating Shapes -->
+       
+       
         <div class="floating-shape shape-teal" style="position:fixed; top:-5%; left:10%; width:20rem; height:20rem; border-radius:50%; background: #ea119aff; opacity:0.3; filter:blur(12px); z-index:0; pointer-events:none;"></div>
         <div class="floating-shape shape-violet" style="position:fixed; top:70%; left:80%; width:15rem; height:15rem; border-radius:50%; background: #711dd6ff; opacity:0.3; filter:blur(12px); z-index:0; pointer-events:none;"></div>
         <div class="floating-shape shape-amber" style="position:fixed; top:40%; left:0%; width:10rem; height:10rem; border-radius:50%; background: #f0ca0cff; opacity:0.3; filter:blur(12px); z-index:0; pointer-events:none;"></div>
@@ -95,7 +95,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav flex-grow-1 d-flex justify-content-evenly mb-2 mb-lg-0" style="margin-left: 10rem; margin-right: 10rem;">
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'statistics_app:public' %}">Workshop Statistics</a></li>
                         {% if user.is_authenticated %}
@@ -112,19 +112,19 @@
                         {% endif %}
                     </ul>
                     {% if user.is_authenticated %}
-                    <div class="dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center"\
+                    <div class="dropdown colour-white">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center"
                         href="#" 
                         id="navbarDropdown" 
                         role="button"
                         data-bs-toggle="dropdown">
-                        <span class="material-icons me-1">account_circle</span>
-                        <span>{{ user.get_full_name|title }}</span>
+                            <span class="material-icons me-1 text-white">account_circle</span>
+                            <span class="text-white">{{ user.get_full_name|title }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a></li>
                             <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
-                            <li><a class="dropdown-item" href="{% url 'workshop_app:logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item logout text-danger" href="{% url 'workshop_app:logout' %}">Logout</a></li>
                         </ul>
                     </div>
                     {% endif %}
