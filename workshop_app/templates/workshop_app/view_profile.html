@@ -134,7 +134,7 @@
                             </label>
                             <input
                                 type="text"
-                                value="{{ coordinator_profile.user.profile.position }}"
+                                value="{% if is_instructor %}{{ instructor_profile.position }}{% else %}{{ coordinator_profile.user.profile.position }}{% endif %}"
                                 class="w-100 px-3 py-2"
                                 style="background-color: #374151; border-radius: 0.75rem; border: 1px solid #374151; color: #fff;"
                                 readonly
@@ -318,18 +318,9 @@
     </div>
 
 
-    <!-- Statistics Table Card -->
+    <!-- Statistics Table Card 
     <div class="w-100 mx-3" style="max-width: 1000px;">
-    <div class="d-flex justify-content-center align-items-center gap-2 mb-5">
-        <button class="btn btn-info fw-bold" id="state_graph" style="background: linear-gradient(to right, #5bd6e4ff, #057e96ff); color: #fff;">
-            <span class="material-icons align-middle me-2">bar_chart</span>
-            State Chart
-        </button>
-        <button class="btn btn-info fw-bold" id="type_graph" style="background: linear-gradient(to right, #34d399, #059669); color: #fff;">
-            <span class="material-icons align-middle me-2">bar_chart</span>
-            Workshop Chart
-        </button>
-    </div>
+    
     <div class="shadow-lg rounded-4 overflow-hidden mx-auto"
         style="max-width: 1000px; background-color: #1f2937;">
         <div style="max-height: 600px; overflow-x: auto; overflow-y: auto;">
@@ -360,9 +351,11 @@
                             <td class="px-4 py-3 align-middle">
                                 {% if workshop.instructor %}
                                     <span style="color: #d1d5db;">{{ workshop.instructor }}</span>
-                                {% else %}
-                                    <span class="badge bg-warning text-dark">Pending</span>
+                                
+                                    {% else %}
+                                    <span class="badge " style="color: #fbbf24;">Pending</span>
                                 {% endif %}
+                                
                             </td>
                             <td class="px-4 py-3 align-middle">
                                 <span style="color: #d1d5db;">{{ workshop.date }}</span>
@@ -376,6 +369,9 @@
             </table>
         </div>
     </div>
+
+    </div>
+    -->
 </div>
 
 

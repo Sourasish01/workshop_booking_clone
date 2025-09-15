@@ -5,7 +5,7 @@
  .background-gradient{
     min-height: 100vh;
     position: relative;
-    background: linear-gradient(135deg, #08140b 0%, #16561f 25%, #0e6f1e 50%, #078e26 75%, #019c3c);
+    background: linear-gradient(135deg, #08140b 0%, #10521b 33%, #0e7f29 75%, #05ad2c 100%);
 }
 .navbar {
     z-index: 1000;
